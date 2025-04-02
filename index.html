@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Airport Management System</h1>
+
+    <!-- View Flights -->
+    <h2>View Flights</h2>
+    <button onclick="fetchFlights()">View Flights</button>
+    <table id="flightsTable">
+        <thead>
+            <tr>
+                <th>Flight ID</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Book Ticket -->
+    <h2>Book Ticket</h2>
+    <input type="text" id="passengerID" placeholder="Enter Passenger ID">
+<input type="text" id="flightID" placeholder="Enter Flight ID">
+<input type="text" id="seatNo" placeholder="Enter Seat Number">
+<button onclick="bookTicket()">Book Ticket</button>
+
+    <!-- View Tickets -->
+    <h2>View Booked Tickets</h2>
+    <input type="number" id="viewPassengerID" placeholder="Enter Passenger ID">
+    <button onclick="fetchTickets()">View Tickets</button>
+    <table id="ticketsTable">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Passenger ID</th>
+                <th>Flight ID</th>
+                <th>Seat No</th>
+                <th>Booking Date</th>
+                <th>Payment Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

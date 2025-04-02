@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Ticket</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Book a Flight Ticket</h1>
+    
+    <input type="text" id="passengerID" placeholder="Passenger ID">
+    <input type="text" id="flightID" placeholder="Flight ID">
+    <input type="text" id="seatNo" placeholder="Seat No">
+    <button onclick="bookTicket()">Book Ticket</button>
+
+    <h2>Your Tickets</h2>
+    <button onclick="fetchTickets()">View My Tickets</button>
+    
+    <table id="ticketsTable">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Flight ID</th>
+                <th>Seat No</th>
+                <th>Booking Date</th>
+                <th>Payment Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <script src="script.js"></script>
+</body>
+</html>
