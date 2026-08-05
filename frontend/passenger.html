@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passenger Portal — AeroManage</title>
+  <meta name="description" content="Passenger self-service portal for flight booking, ticket management, and rewards." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">✈</div>
+      <div>
+        <div class="brand-name">AeroManage</div>
+        <div class="brand-sub">Passenger Portal</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">Passenger</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-register" onclick="switchTab('register')">
+        <span class="nav-icon">📋</span> Register
+      </button>
+      <button class="nav-item" id="nav-findid" onclick="switchTab('findid')">
+        <span class="nav-icon">🔍</span> Find My ID
+      </button>
+    </nav>
+
+    <div class="sidebar-section">Flights</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item" id="nav-search" onclick="switchTab('search')">
+        <span class="nav-icon">🔎</span> Search Flights
+      </button>
+      <button class="nav-item" id="nav-flights" onclick="switchTab('flights')">
+        <span class="nav-icon">✈️</span> All Flights
+      </button>
+      <button class="nav-item" id="nav-book" onclick="switchTab('book')">
+        <span class="nav-icon">🎫</span> Book Ticket
+      </button>
+      <button class="nav-item" id="nav-tickets" onclick="switchTab('tickets')">
+        <span class="nav-icon">📄</span> My Tickets
+      </button>
+    </nav>
+
+    <div class="sidebar-section">Loyalty</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item" id="nav-rewards" onclick="switchTab('rewards')">
+        <span class="nav-icon">🏆</span> My Rewards
+      </button>
+      <button class="nav-item" id="nav-notifications" onclick="switchTab('notifications')">
+        <span class="nav-icon">🔔</span> Notifications
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="nav-item">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+      <a href="admin.html" class="nav-item">
+        <span class="nav-icon">⚙️</span> Admin Dashboard
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="top-bar">
+      <div>
+        <div class="top-bar-title" id="page-title">Register Passenger</div>
+        <div class="top-bar-subtitle" id="page-sub">Create a new passenger account</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- ── Register ──────────────────────────────────────── -->
+      <div class="section-panel active" id="panel-register">
+        <div class="card" style="max-width: 640px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">📋</div> Register Passenger</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Full Name *</label>
+              <input class="form-input" type="text" id="reg-name" placeholder="e.g. Krish Bajaj" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-email">Email Address *</label>
+              <input class="form-input" type="email" id="reg-email" placeholder="e.g. krish@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-phone">Phone Number *</label>
+              <input class="form-input" type="tel" id="reg-phone" placeholder="e.g. 9876543210" maxlength="15" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-nationality">Nationality *</label>
+              <input class="form-input" type="text" id="reg-nationality" placeholder="e.g. Indian" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-passport">Passport Number *</label>
+            <input class="form-input" type="text" id="reg-passport" placeholder="e.g. P1234567" style="max-width: 300px;" />
+          </div>
+          <button class="btn btn-primary" id="btn-register" onclick="registerPassenger()">
+            Register Passenger
+          </button>
+
+          <div class="result-box" id="reg-result">
+            <div class="result-row">
+              <span class="result-label">Passenger ID</span>
+              <span class="result-id" id="reg-pid">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Status</span>
+              <span class="badge badge-success">Registered</span>
+            </div>
+            <div style="margin-top:12px; font-size:0.8125rem; color:var(--text-muted);">
+              ⚠️ Save your Passenger ID — you will need it to book tickets.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Find ID ────────────────────────────────────────── -->
+      <div class="section-panel" id="panel-findid">
+        <div class="card" style="max-width: 560px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">🔍</div> Find Passenger ID</div>
+          </div>
+          <p style="margin-bottom:20px; font-size:0.875rem;">Enter your registered email or passport number to retrieve your Passenger ID.</p>
+          <div class="form-group">
+            <label class="form-label" for="find-email">Email Address</label>
+            <input class="form-input" type="email" id="find-email" placeholder="e.g. krish@email.com" />
+          </div>
+          <div style="text-align:center; color:var(--text-muted); font-size:0.8125rem; margin: -8px 0 16px;">— or —</div>
+          <div class="form-group">
+            <label class="form-label" for="find-passport">Passport Number</label>
+            <input class="form-input" type="text" id="find-passport" placeholder="e.g. P1234567" />
+          </div>
+          <button class="btn btn-primary" onclick="findPassengerID()">Find Passenger ID</button>
+
+          <div class="result-box" id="find-result">
+            <div class="result-row">
+              <span class="result-label">Passenger ID</span>
+              <span class="result-id" id="find-pid">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Name</span>
+              <span class="result-value" id="find-name">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Email</span>
+              <span class="result-value" id="find-email-result">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Search Flights ────────────────────────────────────── -->
+      <div class="section-panel" id="panel-search">
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">🔎</div> Search Flights</div>
+          </div>
+          <div class="form-grid" style="gap: 0 20px;">
+            <div class="form-group">
+              <label class="form-label" for="srch-source">From (Source)</label>
+              <input class="form-input" type="text" id="srch-source" placeholder="e.g. Delhi" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="srch-dest">To (Destination)</label>
+              <input class="form-input" type="text" id="srch-dest" placeholder="e.g. Mumbai" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="srch-date">Date</label>
+              <input class="form-input" type="date" id="srch-date" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="srch-status">Status</label>
+              <select class="form-select" id="srch-status">
+                <option value="">Any Status</option>
+                <option value="On-Time">On-Time</option>
+                <option value="Delayed">Delayed</option>
+                <option value="Canceled">Canceled</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="searchFlights()">🔎 Search Flights</button>
+            <button class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+          </div>
+        </div>
+        <div id="search-results">
+          <div class="card" style="text-align:center; padding:48px; color:var(--text-muted);">
+            Use the filters above to search for flights
+          </div>
+        </div>
+      </div>
+
+      <!-- ── View Flights ───────────────────────────────────── -->
+      <div class="section-panel" id="panel-flights">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+          <div>
+            <h2 style="font-size:1.125rem;">Available Flights</h2>
+            <p style="font-size:0.8125rem; margin-top:2px;">All scheduled flights in the system</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="fetchFlights()">🔄 Refresh</button>
+        </div>
+        <div id="flights-list">
+          <div class="card" style="text-align:center; padding:48px; color:var(--text-muted);">
+            Click Refresh to load available flights
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Book Ticket ────────────────────────────────────── -->
+      <div class="section-panel" id="panel-book">
+        <div class="card" style="max-width:680px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">🎫</div> Book Ticket(s)</div>
+          </div>
+
+          <!-- Step 1: Select Flight -->
+          <div class="form-group">
+            <label class="form-label" for="book-fid">Step 1 — Select Flight *</label>
+            <select class="form-select" id="book-fid" onchange="onFlightSelect(this.value)">
+              <option value="">— Loading flights... —</option>
+            </select>
+          </div>
+
+          <!-- Flight Info Preview -->
+          <div id="flight-preview" style="display:none; background:var(--bg-base); border:1px solid var(--border-accent); border-radius:var(--radius-md); padding:14px 16px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">Route</div>
+                <div style="font-weight:700; font-size:1rem;" id="preview-route">—</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">Airline</div>
+                <div style="font-weight:600;" id="preview-airline">—</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">Departure</div>
+                <div style="font-weight:600; font-size:0.875rem;" id="preview-dep">—</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">Seats Left</div>
+                <div style="font-weight:700; color:var(--success);" id="preview-seats">—</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px;">Status</div>
+                <div id="preview-status">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Seat Map (multi-select) -->
+          <div class="form-group" id="seat-map-section" style="display:none;">
+            <label class="form-label">
+              Step 2 — Select Seat(s)
+              <span style="font-size:0.75rem; color:var(--accent); margin-left:8px; font-weight:600;" id="seat-selected-label">None selected</span>
+            </label>
+            <div style="display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap; align-items:center;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text-muted);">
+                <div style="width:16px;height:16px;border-radius:3px;background:#1e3a5f;border:1px solid #3b82f6;"></div>Available
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text-muted);">
+                <div style="width:16px;height:16px;border-radius:3px;background:#2a1f1f;border:1px solid #ef4444;"></div>Booked
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text-muted);">
+                <div style="width:16px;height:16px;border-radius:3px;background:#2563eb;border:1px solid #60a5fa;"></div>Selected
+              </div>
+              <span style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">Click to select · max 6</span>
+            </div>
+            <div style="background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;overflow-x:auto;">
+              <div style="display:grid;grid-template-columns:28px 6px repeat(3,32px) 14px repeat(3,32px);gap:3px;margin-bottom:6px;align-items:center;">
+                <div></div><div></div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">A</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">B</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">C</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);">✈</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">D</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">E</div>
+                <div style="text-align:center;font-size:0.68rem;color:var(--text-muted);font-weight:700;">F</div>
+              </div>
+              <div id="seat-grid"></div>
+            </div>
+            <input type="hidden" id="book-seat" />
+          </div>
+
+          <!-- Step 3: Assign Passenger per Seat -->
+          <div id="passenger-assignment-section" style="display:none;">
+            <div class="form-group">
+              <label class="form-label">Step 3 — Assign Passenger to Each Seat</label>
+              <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;">Search by name, email, phone, or passport number</p>
+              <div id="passenger-assignment-rows"></div>
+            </div>
+          </div>
+
+          <!-- Step 4: Payment -->
+          <div class="form-group">
+            <label class="form-label">Step 4 — Payment</label>
+            <div style="display:flex;gap:10px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--transition);" id="pay-paid-label">
+                <input type="radio" name="payment" value="Paid" id="pay-paid" onchange="updatePayLabel()" checked style="accent-color:var(--accent);"/>
+                <span>✅ Paid</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--transition);" id="pay-pend-label">
+                <input type="radio" name="payment" value="Pending" id="pay-pend" onchange="updatePayLabel()" style="accent-color:var(--accent);"/>
+                <span>⏳ Pending</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;" onclick="bookTicket()">
+            🎫 Confirm Booking
+          </button>
+
+          <div class="result-box" id="book-result" style="display:none;margin-top:16px;">
+            <div class="result-row">
+              <span class="result-label">Booking ID(s)</span>
+              <span class="result-id" id="book-bid">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Flight</span>
+              <span id="book-route-confirm">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Seat(s)</span>
+              <span id="book-seat-confirm">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Status</span>
+              <span class="badge badge-success">Confirmed ✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── My Tickets ─────────────────────────────────────── -->
+      <div class="section-panel" id="panel-tickets">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="font-size:1.125rem;">My Tickets</h2>
+            <p style="font-size:0.8125rem; margin-top:2px;">All bookings for a passenger</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <input class="form-input" type="number" id="tickets-pid" placeholder="Passenger ID" min="1" style="width:160px;" />
+            <button class="btn btn-primary btn-sm" onclick="fetchTickets()">View Tickets</button>
+          </div>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="table-container" style="border:none; border-radius:var(--radius-lg);">
+            <table class="data-table" id="tickets-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Flight</th>
+                  <th>Route</th>
+                  <th>Seat</th>
+                  <th>Date Booked</th>
+                  <th>Flight Status</th>
+                  <th>Payment</th>
+                </tr>
+              </thead>
+              <tbody id="tickets-body">
+                <tr><td colspan="7" class="table-empty">Enter a Passenger ID above and click View Tickets</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Rewards ────────────────────────────────────────── -->
+      <div class="section-panel" id="panel-rewards">
+        <div style="max-width:560px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+            <input class="form-input" type="number" id="rewards-pid" placeholder="Enter Passenger ID" min="1" style="flex:1; min-width:180px;" />
+            <button class="btn btn-primary" onclick="fetchRewards()">Check Rewards</button>
+          </div>
+
+          <div class="rewards-card" id="rewards-card" style="display:none;">
+            <div class="rewards-tier" id="rewards-tier-badge">🥉 Bronze</div>
+            <div class="rewards-points" id="rewards-points">0</div>
+            <div class="rewards-points-label">Loyalty Points</div>
+            <div class="rewards-bar-wrap">
+              <div class="rewards-bar" id="rewards-bar" style="width:0%"></div>
+            </div>
+            <div class="rewards-next" id="rewards-next-label">0 points to next tier</div>
+            <div style="margin-top:24px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; text-align:center;">
+              <div style="font-size:0.6875rem; color:var(--text-muted);">Bronze<br><span style="color:#cd7f32; font-weight:600;">0pts</span></div>
+              <div style="font-size:0.6875rem; color:var(--text-muted);">Silver<br><span style="color:#c0c0c0; font-weight:600;">1,000pts</span></div>
+              <div style="font-size:0.6875rem; color:var(--text-muted);">Gold<br><span style="color:#ffd700; font-weight:600;">5,000pts</span></div>
+              <div style="font-size:0.6875rem; color:var(--text-muted);">Platinum<br><span style="color:#e5e4e2; font-weight:600;">10,000pts</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Notifications ──────────────────────────────────── -->
+      <div class="section-panel" id="panel-notifications">
+        <div style="max-width:680px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+            <input class="form-input" type="number" id="notif-pid" placeholder="Enter Passenger ID" min="1" style="flex:1; min-width:180px;" />
+            <button class="btn btn-primary" onclick="fetchNotifications()">Load Notifications</button>
+          </div>
+          <div id="notif-list">
+            <div class="card" style="text-align:center; padding:48px; color:var(--text-muted);">
+              Enter your Passenger ID to view flight notifications
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

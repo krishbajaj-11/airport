@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AeroManage — Airport Management System</title>
+  <meta name="description" content="A comprehensive, full-stack airport management system for managing flights, passengers, bookings, staff, and rewards." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="landing-body">
+
+  <!-- Navigation -->
+  <nav class="landing-nav">
+    <div class="nav-brand">
+      <div class="nav-logo-icon">✈</div>
+      <div>
+        <div>AeroManage</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="passenger.html" class="btn btn-ghost btn-sm">Passenger Portal</a>
+      <a href="login.html" class="btn btn-primary btn-sm">Admin Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="live-dot"></span>
+        Full-Stack Airport Management System
+      </div>
+      <h1 class="hero-title">
+        Precision in<br />
+        <span class="gradient-text">Every Flight</span>
+      </h1>
+      <p class="hero-subtitle">
+        A complete airport operations platform — manage flights, passengers, bookings, staff assignments, and loyalty rewards with a clean, modern interface.
+      </p>
+      <div class="hero-actions">
+        <a href="passenger.html" class="btn btn-primary">
+          <span>🧳</span> Passenger Portal
+        </a>
+        <a href="login.html" class="btn btn-secondary">
+          <span>⚙️</span> Admin Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Stats Strip -->
+  <div class="stats-strip">
+    <div class="strip-stat">
+      <div class="strip-num" id="stat-flights">—</div>
+      <div class="strip-label">Total Flights</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num" id="stat-passengers">—</div>
+      <div class="strip-label">Registered Passengers</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num" id="stat-bookings">—</div>
+      <div class="strip-label">Tickets Booked</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num" id="stat-staff">—</div>
+      <div class="strip-label">Staff Members</div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section class="features">
+    <p class="section-label">What's Included</p>
+    <h2 class="section-title">Built for Real Operations</h2>
+    <p class="section-desc">Every module is backed by a live MySQL database with proper relational integrity, triggers, and stored procedures.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">✈️</div>
+        <h3 class="feature-title">Flight Management</h3>
+        <p class="feature-desc">Add and track flights with airline, airport, departure/arrival times and real-time status tracking.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">On-Time</span>
+          <span class="feature-tag">Delayed</span>
+          <span class="feature-tag">Canceled</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎫</div>
+        <h3 class="feature-title">Ticket Booking</h3>
+        <p class="feature-desc">Register passengers, search by email or passport, and book tickets with automatic seat assignment tracking.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Paid</span>
+          <span class="feature-tag">Pending</span>
+          <span class="feature-tag">Canceled</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3 class="feature-title">Rewards Program</h3>
+        <p class="feature-desc">Automated loyalty system powered by a MySQL trigger — passengers earn 100 points per paid booking with tier progression.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Bronze</span>
+          <span class="feature-tag">Silver</span>
+          <span class="feature-tag">Gold</span>
+          <span class="feature-tag">Platinum</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">👨‍✈️</div>
+        <h3 class="feature-title">Staff Management</h3>
+        <p class="feature-desc">Assign pilots, cabin crew, and ground staff to specific flights. View full staff deployment across all operations.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Pilot</span>
+          <span class="feature-tag">Cabin Crew</span>
+          <span class="feature-tag">Ground Staff</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3 class="feature-title">Smart Notifications</h3>
+        <p class="feature-desc">MySQL trigger automatically notifies all affected passengers when a flight status changes to Delayed or Canceled.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Auto-trigger</span>
+          <span class="feature-tag">Per-passenger</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <h3 class="feature-title">Relational Database</h3>
+        <p class="feature-desc">9-table MySQL schema with foreign keys, ENUM constraints, stored procedures, and automated triggers for data integrity.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">MySQL 8.0</span>
+          <span class="feature-tag">Triggers</span>
+          <span class="feature-tag">Procedures</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portal Access Cards -->
+  <section class="portals">
+    <p class="section-label">Get Started</p>
+    <h2 class="section-title">Choose Your Portal</h2>
+    <p class="section-desc">Two distinct interfaces built for passengers and administrators.</p>
+
+    <div class="portals-grid">
+      <a href="passenger.html" class="portal-card" style="--glow-color: rgba(59,130,246,0.12)">
+        <div class="portal-icon">🧳</div>
+        <h3 class="portal-title">Passenger Portal</h3>
+        <p class="portal-desc">Self-service portal for passengers to register, search flights, book tickets, and view their travel history.</p>
+        <ul class="portal-features">
+          <li>Register as a new passenger</li>
+          <li>Find your Passenger ID</li>
+          <li>Browse available flights</li>
+          <li>Book & view your tickets</li>
+          <li>Check rewards & loyalty tier</li>
+        </ul>
+        <div class="btn btn-primary">Open Passenger Portal →</div>
+      </a>
+
+      <a href="login.html" class="portal-card" style="--glow-color: rgba(6,182,212,0.1)">
+        <div class="portal-icon">⚙️</div>
+        <h3 class="portal-title">Admin Dashboard</h3>
+        <p class="portal-desc">Operations dashboard for administrators to manage airlines, flights, staff assignments, and monitor system metrics.</p>
+        <ul class="portal-features">
+          <li>Add airlines & airports</li>
+          <li>Schedule new flights</li>
+          <li>Assign & manage staff</li>
+          <li>Monitor live statistics</li>
+          <li>View all staff deployments</li>
+        </ul>
+        <div class="btn btn-secondary">Open Admin Dashboard →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="footer-copy">© 2025 AeroManage · Airport Management System</div>
+    <div class="footer-tech">Node.js · Express · MySQL · Vanilla JS</div>
+  </footer>
+
+  <script>
+    const API = 'http://localhost:3000';
+    async function loadStats() {
+      try {
+        const res = await fetch(`${API}/stats`);
+        const data = await res.json();
+        const animate = (el, target) => {
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = current;
+            if (current >= target) clearInterval(timer);
+          }, 30);
+        };
+        animate(document.getElementById('stat-flights'), data.totalFlights || 0);
+        animate(document.getElementById('stat-passengers'), data.totalPassengers || 0);
+        animate(document.getElementById('stat-bookings'), data.totalBookings || 0);
+        animate(document.getElementById('stat-staff'), data.totalStaff || 0);
+      } catch {
+        ['stat-flights','stat-passengers','stat-bookings','stat-staff']
+          .forEach(id => document.getElementById(id).textContent = '0');
+      }
+    }
+    loadStats();
+  </script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — AeroManage</title>
+  <meta name="description" content="Secure admin login for AeroManage Airport Management System." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .login-body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 30% 20%, rgba(37,99,235,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(6,182,212,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .login-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .login-card {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      margin: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .login-logo {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: var(--glow-blue);
+    }
+
+    .login-brand-text .brand-name { font-size: 1.125rem; font-weight: 700; }
+    .login-brand-text .brand-sub  { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .login-error {
+      display: none;
+      background: var(--danger-bg);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 0.875rem;
+      color: var(--danger);
+      margin-bottom: 20px;
+      align-items: center;
+      gap: 8px;
+    }
+    .login-error.visible { display: flex; }
+
+    .btn-login {
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+      font-size: 0.9375rem;
+      margin-top: 8px;
+    }
+
+    .login-footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .login-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .login-footer a:hover { text-decoration: underline; }
+
+    .credentials-hint {
+      background: var(--accent-subtle);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .credentials-hint strong { color: var(--accent); font-family: var(--font-mono); }
+
+    .input-icon-wrap {
+      position: relative;
+    }
+    .input-icon-wrap .form-input {
+      padding-left: 40px;
+    }
+    .input-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .password-wrap { position: relative; }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 4px;
+      transition: color var(--transition);
+    }
+    .toggle-password:hover { color: var(--text-primary); }
+  </style>
+</head>
+<body class="login-body">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+
+  <div class="login-card">
+    <!-- Brand -->
+    <div class="login-brand">
+      <div class="login-logo">✈</div>
+      <div class="login-brand-text">
+        <div class="brand-name">AeroManage</div>
+        <div class="brand-sub">Airport Management System</div>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="login-title">Admin Login</h1>
+    <p class="login-subtitle">Sign in to access the operations dashboard.</p>
+
+    <!-- Demo Credentials Hint -->
+    <div class="credentials-hint">
+      🔑 Demo credentials — Email: <strong>admin@aeromanage.com</strong> · Password: <strong>Admin@123</strong>
+    </div>
+
+    <!-- Error Message -->
+    <div class="login-error" id="login-error">
+      <span>⚠️</span>
+      <span id="error-text">Invalid credentials.</span>
+    </div>
+
+    <!-- Form -->
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email Address</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">📧</span>
+          <input
+            class="form-input"
+            type="email"
+            id="login-email"
+            placeholder="admin@aeromanage.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <div class="input-icon-wrap password-wrap">
+          <span class="input-icon">🔒</span>
+          <input
+            class="form-input"
+            type="password"
+            id="login-password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="button" class="toggle-password" id="toggle-pw" onclick="togglePassword()">👁</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-login" type="submit" id="btn-login">
+        Sign In to Dashboard
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <a href="index.html">← Back to Home</a>
+      &nbsp;·&nbsp;
+      <a href="passenger.html">Passenger Portal</a>
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:3000';
+
+    // Redirect if already logged in
+    const existingToken = localStorage.getItem('aero_token');
+    if (existingToken) {
+      // Verify token is still valid
+      fetch(`${API}/admin/verify`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${existingToken}` }
+      }).then(res => {
+        if (res.ok) window.location.href = 'admin.html';
+        else localStorage.removeItem('aero_token');
+      }).catch(() => {});
+    }
+
+    function togglePassword() {
+      const input = document.getElementById('login-password');
+      const btn   = document.getElementById('toggle-pw');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('error-text').textContent = msg;
+      document.getElementById('login-error').classList.add('visible');
+    }
+
+    function hideError() {
+      document.getElementById('login-error').classList.remove('visible');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      hideError();
+
+      const email    = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const btn      = document.getElementById('btn-login');
+
+      btn.disabled  = true;
+      btn.innerHTML = '<span class="spinner"></span> Signing in...';
+
+      try {
+        const res  = await fetch(`${API}/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError(data.error || 'Login failed. Please try again.');
+          return;
+        }
+
+        // Store token and admin info
+        localStorage.setItem('aero_token', data.token);
+        localStorage.setItem('aero_admin', JSON.stringify({ name: data.name, role: data.role }));
+
+        // Redirect to dashboard
+        window.location.href = 'admin.html';
+
+      } catch {
+        showError('Cannot connect to server. Make sure the backend is running.');
+      } finally {
+        btn.disabled  = false;
+        btn.innerHTML = 'Sign In to Dashboard';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — AeroManage</title>
+  <meta name="description" content="Airport administrator dashboard for managing flights, airlines, staff, and operations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">⚙️</div>
+      <div>
+        <div class="brand-name">AeroManage</div>
+        <div class="brand-sub">Admin Dashboard</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">Overview</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-overview" onclick="switchTab('overview')">
+        <span class="nav-icon">📊</span> Dashboard
+      </button>
+    </nav>
+
+    <div class="sidebar-section">Manage</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item" id="nav-airlines" onclick="switchTab('airlines')">
+        <span class="nav-icon">🏢</span> Airlines
+      </button>
+      <button class="nav-item" id="nav-flights" onclick="switchTab('flights')">
+        <span class="nav-icon">✈️</span> Add Flight
+      </button>
+      <button class="nav-item" id="nav-staff" onclick="switchTab('staff')">
+        <span class="nav-icon">👨‍✈️</span> Staff
+      </button>
+    </nav>
+
+    <div class="sidebar-section">View</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item" id="nav-allflights" onclick="switchTab('allflights')">
+        <span class="nav-icon">📋</span> All Flights
+      </button>
+      <button class="nav-item" id="nav-allstaff" onclick="switchTab('allstaff')">
+        <span class="nav-icon">👥</span> All Staff
+      </button>
+      <button class="nav-item" id="nav-reports" onclick="switchTab('reports'); loadReports();">
+        <span class="nav-icon">📊</span> Reports
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="nav-item">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+      <a href="passenger.html" class="nav-item">
+        <span class="nav-icon">🧳</span> Passenger Portal
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="top-bar">
+      <div>
+        <div class="top-bar-title" id="page-title">Dashboard</div>
+        <div class="top-bar-subtitle" id="page-sub">System overview and key metrics</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="live-dot"></span>
+        <span style="font-size:0.8125rem; color:var(--text-muted);">Live</span>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- ── Overview ──────────────────────────────────────── -->
+      <div class="section-panel active" id="panel-overview">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">✈️</div>
+            <div>
+              <div class="stat-value" id="s-flights">—</div>
+              <div class="stat-label">Total Flights</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🧳</div>
+            <div>
+              <div class="stat-value" id="s-passengers">—</div>
+              <div class="stat-label">Passengers</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎫</div>
+            <div>
+              <div class="stat-value" id="s-bookings">—</div>
+              <div class="stat-label">Bookings</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div>
+              <div class="stat-value" id="s-staff">—</div>
+              <div class="stat-label">Staff Members</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏢</div>
+            <div>
+              <div class="stat-value" id="s-airlines">—</div>
+              <div class="stat-label">Airlines</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><div class="card-icon">⚡</div> Quick Actions</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <button class="btn btn-secondary" onclick="switchTab('airlines')" style="justify-content:flex-start;">🏢 &nbsp;Add New Airline</button>
+              <button class="btn btn-secondary" onclick="switchTab('flights')" style="justify-content:flex-start;">✈️ &nbsp;Schedule a Flight</button>
+              <button class="btn btn-secondary" onclick="switchTab('staff')" style="justify-content:flex-start;">👨‍✈️ &nbsp;Assign Staff</button>
+              <button class="btn btn-secondary" onclick="switchTab('allflights'); fetchAllFlights();" style="justify-content:flex-start;">📋 &nbsp;View All Flights</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><div class="card-icon">ℹ️</div> System Info</div>
+            </div>
+            <div style="font-size:0.875rem; display:flex; flex-direction:column; gap:12px;">
+              <div class="result-row"><span class="result-label">Backend</span><span class="badge badge-success">Online — Port 3000</span></div>
+              <div class="result-row"><span class="result-label">Database</span><span class="badge badge-success">MySQL Connected</span></div>
+              <div class="result-row"><span class="result-label">Schema</span><span class="badge badge-accent">9 Tables Active</span></div>
+              <div class="result-row"><span class="result-label">Triggers</span><span class="badge badge-accent">2 Active</span></div>
+              <div class="result-row"><span class="result-label">Procedures</span><span class="badge badge-accent">1 Active</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Airlines ──────────────────────────────────────── -->
+      <div class="section-panel" id="panel-airlines">
+        <div class="card" style="max-width:560px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">🏢</div> Add New Airline</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="al-name">Airline Name *</label>
+              <input class="form-input" type="text" id="al-name" placeholder="e.g. IndiGo" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="al-country">Country *</label>
+              <input class="form-input" type="text" id="al-country" placeholder="e.g. India" />
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="addAirline()">🏢 Add Airline</button>
+        </div>
+      </div>
+
+      <!-- ── Add Flight ─────────────────────────────────────── -->
+      <div class="section-panel" id="panel-flights">
+        <div class="card" style="max-width:700px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">✈️</div> Schedule New Flight</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="fl-airline">Airline ID *</label>
+              <input class="form-input" type="number" id="fl-airline" placeholder="e.g. 1" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-status">Status</label>
+              <select class="form-select" id="fl-status">
+                <option value="On-Time">On-Time</option>
+                <option value="Delayed">Delayed</option>
+                <option value="Canceled">Canceled</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-source">Source City *</label>
+              <input class="form-input" type="text" id="fl-source" placeholder="e.g. Mumbai" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-dest">Destination City *</label>
+              <input class="form-input" type="text" id="fl-dest" placeholder="e.g. Delhi" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-dep-airport">Departure Airport ID *</label>
+              <input class="form-input" type="number" id="fl-dep-airport" placeholder="e.g. 1" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-arr-airport">Arrival Airport ID *</label>
+              <input class="form-input" type="number" id="fl-arr-airport" placeholder="e.g. 2" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-dep-time">Departure Time *</label>
+              <input class="form-input" type="datetime-local" id="fl-dep-time" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fl-arr-time">Arrival Time *</label>
+              <input class="form-input" type="datetime-local" id="fl-arr-time" />
+            </div>
+          </div>
+          <div class="info-box" style="margin-bottom:20px;">
+            ℹ️ Make sure the Airline ID and Airport IDs exist in the database before adding a flight.
+          </div>
+          <button class="btn btn-primary" onclick="addFlight()">✈️ Schedule Flight</button>
+        </div>
+      </div>
+
+      <!-- ── Staff ──────────────────────────────────────────── -->
+      <div class="section-panel" id="panel-staff">
+        <div class="card" style="max-width:600px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">👨‍✈️</div> Assign Staff to Flight</div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="st-name">Staff Name *</label>
+              <input class="form-input" type="text" id="st-name" placeholder="e.g. Rajan Kumar" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="st-role">Role *</label>
+              <select class="form-select" id="st-role">
+                <option value="Pilot">Pilot</option>
+                <option value="Cabin Crew">Cabin Crew</option>
+                <option value="Ground Staff">Ground Staff</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="st-flight">Flight ID *</label>
+              <input class="form-input" type="number" id="st-flight" placeholder="e.g. 1" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="st-contact">Contact Number *</label>
+              <input class="form-input" type="tel" id="st-contact" placeholder="e.g. 9876543210" maxlength="15" />
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="assignStaff()">👨‍✈️ Assign Staff</button>
+        </div>
+      </div>
+
+      <!-- ── All Flights ─────────────────────────────────────── -->
+      <div class="section-panel" id="panel-allflights">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="font-size:1.125rem;">All Flights</h2>
+            <p style="font-size:0.8125rem; margin-top:2px;">Complete flight schedule</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="fetchAllFlights()">🔄 Refresh</button>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="table-container" style="border:none; border-radius:var(--radius-lg);">
+            <table class="data-table" id="flights-table">
+              <thead>
+                <tr>
+        <th>ID</th>
+                  <th>Airline</th>
+                  <th>Route</th>
+                  <th>Departure</th>
+                  <th>Arrival</th>
+                  <th>Seats</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="flights-body">
+                <tr><td colspan="7" class="table-empty">Click Refresh to load flights</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── All Staff ──────────────────────────────────────── -->
+      <div class="section-panel" id="panel-allstaff">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="font-size:1.125rem;">Staff Directory</h2>
+            <p style="font-size:0.8125rem; margin-top:2px;">All assigned staff members</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="fetchAllStaff()">🔄 Refresh</button>
+        </div>
+        <div class="card" style="padding:0;">
+          <div class="table-container" style="border:none; border-radius:var(--radius-lg);">
+            <table class="data-table" id="staff-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Assigned Flight</th>
+                  <th>Route</th>
+                  <th>Contact</th>
+                </tr>
+              </thead>
+              <tbody id="staff-body">
+                <tr><td colspan="6" class="table-empty">Click Refresh to load staff</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── Reports ───────────────────────────────────────── -->
+      <div class="section-panel" id="panel-reports">
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:1.125rem;">Analytics &amp; Reports</h2>
+          <p style="font-size:0.8125rem; margin-top:2px;">Powered by SQL Views with window functions</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+          <!-- Revenue Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><div class="card-icon">💰</div> Revenue by Airline</div>
+            </div>
+            <canvas id="chart-revenue" height="220"></canvas>
+          </div>
+          <!-- Route Popularity Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><div class="card-icon">🗺️</div> Top Routes</div>
+            </div>
+            <canvas id="chart-routes" height="220"></canvas>
+          </div>
+        </div>
+
+        <!-- Occupancy Table -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">💺</div> Flight Occupancy</div>
+            <span style="font-size:0.75rem; color:var(--text-muted);">vw_FlightOccupancy</span>
+          </div>
+          <div class="table-container" style="border:none;">
+            <table class="data-table">
+              <thead><tr><th>Flight</th><th>Route</th><th>Airline</th><th>Booked</th><th>Remaining</th><th>Occupancy %</th><th>Status</th></tr></thead>
+              <tbody id="occupancy-body"><tr><td colspan="7" class="table-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top Passengers -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon">🏆</div> Top Passengers by Loyalty</div>
+            <span style="font-size:0.75rem; color:var(--text-muted);">vw_TopPassengers · RANK() window function</span>
+          </div>
+          <div class="table-container" style="border:none;">
+            <table class="data-table">
+              <thead><tr><th>Rank</th><th>Name</th><th>Nationality</th><th>Points</th><th>Tier</th><th>Total Bookings</th></tr></thead>
+              <tbody id="top-passengers-body"><tr><td colspan="6" class="table-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
